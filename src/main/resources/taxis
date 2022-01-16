@@ -1,0 +1,16 @@
+{
+    "taxis": [
+        {
+            "location": {
+                "xcoordinate":0.0,
+                "ycoordinate":0.0
+            }
+        },
+        {
+            "location": {
+                "xcoordinate":0.0,
+                "ycoordinate":1.0
+            }
+        }
+    ]
+}
