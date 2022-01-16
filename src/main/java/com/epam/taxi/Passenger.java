@@ -1,11 +1,15 @@
 package com.epam.taxi;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+public class Passenger {
+    private final int id;
+    private final Location initialLocation;
+    private final Location destinationLocation;
 
-public class Passenger implements Runnable {
-    private Location initialLocation;
-    private Location destinationLocation;
+    public Passenger(int id, Location initialLocation, Location destinationLocation) {
+        this.id = id;
+        this.initialLocation = initialLocation;
+        this.destinationLocation = destinationLocation;
+    }
 
     public Location getInitialLocation() {
         return initialLocation;
@@ -16,17 +20,10 @@ public class Passenger implements Runnable {
     }
 
     @Override
-    public void run() {
-        Taxis taxis = Taxis.getInstance();
-
-        Taxi taxi = taxis.orderTaxi(this);
-        taxi.drivePassengerToDestination(this, taxis);
-    }
-
-    @Override
     public String toString() {
         return "Passenger{" +
-                "initialLocation=" + initialLocation +
+                "id=" + id +
+                ", initialLocation=" + initialLocation +
                 ", destinationLocation=" + destinationLocation +
                 '}';
     }
