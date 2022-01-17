@@ -8,6 +8,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Passengers {
+    private static final Lock LOCK = new ReentrantLock();
+
     private static final Logger LOGGER = Logger.getLogger(Passengers.class);
 
     private static final double MAXIMUM_RADIUS = 5;
@@ -19,15 +21,14 @@ public class Passengers {
     public static Passengers getInstance() {
         Passengers localInstance = INSTANCE;
         if (localInstance == null) {
-            Lock lock = new ReentrantLock();
-            lock.lock();
+            LOCK.lock();
 
             localInstance = INSTANCE;
             if (localInstance == null) {
                 INSTANCE = localInstance = new Passengers();
             }
 
-            lock.unlock();
+            LOCK.unlock();
         }
 
         return localInstance;
