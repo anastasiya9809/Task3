@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -28,17 +27,14 @@ public class Main {
 
         try {
             Taxis taxis = mapper.readValue(file, Taxis.class);
-            passengers.setAllTaxis(taxis.getTaxis());
-            passengers.setAvailableTaxis(taxis.getTaxis());
 
             ExecutorService executorService = Executors.newFixedThreadPool(2);
 
             while (true) {
-                for (Taxi taxi: passengers.getAvailableTaxis()) {
+                for (Taxi taxi: taxis.getTaxis()) {
                     executorService.execute(taxi);
 
-                    boolean isAnyPassengerWithinRadiusOfTaxis = passengers.isAnyPassengerWithinRadiusOfTaxis();
-                    if (!isAnyPassengerWithinRadiusOfTaxis) {
+                    if (Taxi.getNumberOfTimesInARowPassengerWasNotFound() >= 5) {
                         executorService.shutdown();
                         TimeUnit.SECONDS.sleep(1);
                         return;

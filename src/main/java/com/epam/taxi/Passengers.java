@@ -16,10 +16,6 @@ public class Passengers {
 
     private final List<Passenger> passengers = new ArrayList<>();
 
-    private List<Taxi> allTaxis;
-
-    private List<Taxi> availableTaxis;
-
     public static Passengers getInstance() {
         Passengers localInstance = INSTANCE;
         if (localInstance == null) {
@@ -35,22 +31,6 @@ public class Passengers {
         }
 
         return localInstance;
-    }
-
-    public List<Taxi> getAllTaxis() {
-        return allTaxis;
-    }
-
-    public void setAllTaxis(List<Taxi> allTaxis) {
-        this.allTaxis = allTaxis;
-    }
-
-    public List<Taxi> getAvailableTaxis() {
-        return availableTaxis;
-    }
-
-    public void setAvailableTaxis(List<Taxi> availableTaxis) {
-        this.availableTaxis = availableTaxis;
     }
 
     public void add(Passenger passenger) {
@@ -73,23 +53,8 @@ public class Passengers {
         return Math.sqrt(distanceSquared);
     }
 
-    public boolean isAnyPassengerWithinRadiusOfTaxis() {
-        for (Passenger passenger : passengers) {
-            for (Taxi taxi : allTaxis) {
-                double distance = calculateDistance(passenger, taxi);
-                if (distance <= MAXIMUM_RADIUS) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public Passenger findPassenger(Taxi taxi) {
         double minimumDistance = 10;
-
-        Lock lock = new ReentrantLock();
-        lock.lock();
 
         Passenger result = null;
 
@@ -103,12 +68,10 @@ public class Passengers {
 
         if (result != null) {
             passengers.remove(result);
-            availableTaxis.remove(taxi);
+            taxi.setAvailable(false);
 
-            System.out.println(result);
+            LOGGER.info(taxi + "\n" + result + "\n\n");
         }
-
-        lock.unlock();
 
         return result;
     }
