@@ -61,13 +61,13 @@ public class Passengers {
 
         for (Passenger passenger : passengers) {
             double distance = calculateDistance(passenger, taxi);
-            if (distance <= MAXIMUM_RADIUS && distance < minimumDistance) {
+            if (distance < minimumDistance) {
                 minimumDistance = distance;
                 result = passenger;
             }
         }
 
-        if (result != null) {
+        if (minimumDistance <= MAXIMUM_RADIUS) {
             passengers.remove(result);
             taxi.setAvailable(false);
 
