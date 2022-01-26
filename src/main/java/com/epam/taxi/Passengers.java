@@ -72,8 +72,9 @@ public class Passengers {
             taxi.setAvailable(false);
 
             LOGGER.info(taxi + "\n" + result + "\n\n");
+            return result;
         }
 
-        return result;
+        return null;
     }
 }
